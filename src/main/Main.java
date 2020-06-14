@@ -13,12 +13,13 @@ public class Main {
 
 		Scanner unos = new Scanner(System.in);
 		StudentDAO_Implementation obj = new StudentDAO_Implementation();
+		Validacija val = new Validacija();
 
-		int izbor = -1;
-		
-		izbor = vidiDaLiZeliKorisnikSePonovoUlogovati();
+		int izbor = 0;
 
-		while (izbor != 2) {
+		izbor = val.vidiDaLiZeliKorisnikSeUlogovati();
+
+		while (izbor == 1 || izbor == 2) {
 
 			if (izbor == 1) {
 
@@ -33,51 +34,90 @@ public class Main {
 				if (korisnik.getEmail().equals(email)) {
 
 					if (korisnik.getPassword().equals(password)) {
-
-						System.out.println(korisnik.toString());
-
-						System.out.println(
-								"Unesite " + "1 ako zelite promjeniti ime " + "2 ako zelite izaci iz programa");
+						
+						obj.printStudent(korisnik);
+						
+						System.out.println("Unesite " + "\n1 ako zelite promjeniti vase podatke"
+								+ "\n2 ako zelite izbrisati nalog");
 
 						int izbor2 = unos.nextInt();
 
 						if (izbor2 == 1) {
 
-							System.out.println("Uneiste ime");
-							String ime = unos.next();
+							System.out.println("Unesite " + "\n1 ako zelite promjeniti ime "
+									+ "\n2 ako zelite pormjeniti prezime " + "\n3 ako zelite promjeniti email "
+									+ "\n4 ako zelite promjeniti sifru " + "\n5 ako zelite izbristi nalog"
+									+ "\nbilo koji drugi broj ako zelite izaci iz programa");
 
-							obj.updateStudent(korisnik, ime);
+							int izbor3 = unos.nextInt();
+
+							String info = "";
+
+							if (izbor3 == 1) {
+								info = "first_name";
+							} else if (izbor3 == 2) {
+								info = "last_name";
+
+							} else if (izbor3 == 3) {
+								info = "email";
+
+							} else if (izbor3 == 4) {
+								info = "password";
+
+							}
+
+							else
+								break;
+
+							System.out.println("Uneiste novu vrijednost " + info + "-a");
+							String novaVrijednost = unos.next();
+
+							obj.updateStudent(korisnik, novaVrijednost, info);
 
 							korisnik = obj.dobijKorisnikaPrekoEmaila(email);
-							System.out.println(korisnik.getIme());
-							izbor = vidiDaLiZeliKorisnikSePonovoUlogovati();
-							
+							obj.printStudent(korisnik);
+							izbor = val.vidiDaLiZeliKorisnikSeUlogovati();
 						} else if (izbor2 == 2) {
-							izbor = 0;
+
+							obj.deleteStudent(korisnik);
 						}
+
 					} else {
 						System.out.println("Sifra nije tacna\n");
-						System.out.println(
-								"Unesite " + "1 ako zelite se ponovo ulogovati " + "2 ako zelite izaci iz programa");
-
-						izbor = unos.nextInt();
+						izbor = val.vidiDaLiZeliKorisnikSeUlogovati();
 					}
 				} else {
 					System.out.println("Korisnik koji ima email " + email + " ne postoji u nasoj bazi\n");
-					izbor = vidiDaLiZeliKorisnikSePonovoUlogovati();
+					izbor = val.vidiDaLiZeliKorisnikSeUlogovati();
 				}
+			} else if (izbor == 2) {
+				System.out.print("Unesite ime: ");
+				String name = unos.next();
+
+				System.out.print("Unesite prezime: ");
+				String lastname = unos.next();
+
+				System.out.print("Unesite email: ");
+				String email = unos.next();
+
+				System.out.print("Unesite sifru: ");
+				String password = unos.next();
+
+				Korisnik korisnik_provjera = obj.dobijKorisnikaPrekoEmaila(email);
+
+				if (korisnik_provjera.getEmail().equals(email)) {
+					System.out.println("Postoji vec takav jedan korisnik");
+				} else {
+					obj.addStudent(name, lastname, email, password);
+					Korisnik korisnik = obj.dobijKorisnikaPrekoEmaila(email);
+					obj.printStudent(korisnik);
+				}
+				izbor = val.vidiDaLiZeliKorisnikSeUlogovati();
+
 			}
 
 		}
 
 	}
-
-	public static int vidiDaLiZeliKorisnikSePonovoUlogovati() {
-		Scanner unos = new Scanner(System.in);
-		System.out.println("Unesite " + "1 ako zelite se ponovo ulogovati " + "2 ako zelite izaci iz programa");
-		int izbor = unos.nextInt();
-		return izbor;
-	}
-	
 
 }

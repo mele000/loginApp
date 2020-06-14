@@ -1,6 +1,6 @@
 package dto;
 
-import java.sql.SQLException;
+
 
 public class Korisnik {
 	// data fields
