@@ -46,7 +46,7 @@ public class Main {
 
 							System.out.println("Unesite " + "\n1 ako zelite promjeniti ime "
 									+ "\n2 ako zelite pormjeniti prezime " + "\n3 ako zelite promjeniti email "
-									+ "\n4 ako zelite promjeniti sifru " + "\n5 ako zelite izbristi nalog"
+									+ "\n4 ako zelite promjeniti sifru "
 									+ "\nbilo koji drugi broj ako zelite izaci iz programa");
 
 							int izbor3 = unos.nextInt();
@@ -54,7 +54,7 @@ public class Main {
 							String info = "";
 
 							if (izbor3 == 1) {
-								info = "first_name";
+								info = "first_name";				
 							} else if (izbor3 == 2) {
 								info = "last_name";
 
@@ -69,6 +69,7 @@ public class Main {
 							else
 								break;
 
+							
 							System.out.println("Uneiste novu vrijednost " + info + "-a");
 							String novaVrijednost = unos.next();
 
@@ -80,6 +81,8 @@ public class Main {
 						} else if (izbor2 == 2) {
 
 							obj.deleteStudent(korisnik);
+							izbor = val.vidiDaLiZeliKorisnikSeUlogovati();
+							
 						}
 
 					} else {

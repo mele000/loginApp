@@ -50,14 +50,17 @@ public class StudentDAO_Implementation extends Korisnik implements StudentDAO_In
 	public void updateStudent(Korisnik korisnik,String novaVrijednost, String onoStoSeTrebaPromjeniti) throws SQLException {
 		if (korisnik != null) {
 
-			String query = "UPDATE users SET ? = ? WHERE email = ?";
 
+			String query = "UPDATE users SET " + "`" + onoStoSeTrebaPromjeniti + "`" + " = ? WHERE email = ?";
+		
+			
+
+			
 			try (
 					PreparedStatement statement = connection.prepareStatement(query);) {
 
-				statement.setString(1, onoStoSeTrebaPromjeniti);
-				statement.setString(2, novaVrijednost);
-				statement.setString(3, korisnik.getEmail());
+				statement.setString(1, novaVrijednost);
+				statement.setString(2, korisnik.getEmail());
 
 				statement.executeUpdate();
 
